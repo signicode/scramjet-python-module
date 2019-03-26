@@ -12,4 +12,17 @@ stream.use(
 )
 ```
 
+The current outcome is:
+
+```
+✔ /c/src/scramjet5/scramjet-python-module [master|✔]
+00:46 $ nodeunit test/unit/test.js
+
+test.js
+4
+√ test
+
+OK: 1 assertions (117ms)
+```
+
 [1]: https://www.scramjet.org/
