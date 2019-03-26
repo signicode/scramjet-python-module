@@ -10,7 +10,7 @@ module.exports = {
                 return a + ${x}["a"] + ${x}["b"]
         `;
 
-        test.equals(typeof func, "function", "Returns a function")
+        test.equals(typeof func, "function", "Returns a function");
         const data = await func(1);
         console.log(data);
 
