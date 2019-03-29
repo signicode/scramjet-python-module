@@ -7,12 +7,13 @@ module.exports = {
         const x = {a:1, b: 2};
         const func = python`
             def exec(a):
-                return a + ${x}["a"] + ${x}["b"]
+                x = ${x};
+                return a["c"] + x["a"] + x["b"] + 1
         `;
 
         test.equals(typeof func, "function", "Returns a function");
-        test.equals(await func(1), 4, "Does execute the function");
-        test.equals(await func(2), 5, "Does do the calculation in python!");
+        test.equals(await func({c:0}), 4, "Does execute the function");
+        test.equals(await func({c:1}), 5, "Does do the calculation in python!");
 
         test.done();
     }

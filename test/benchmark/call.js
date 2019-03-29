@@ -1,49 +1,48 @@
 const assert = require("assert");
 const {python} = require("../../");
 const {DataStream} = require("scramjet");
-const elapsed = ([os, ons], [s, ns] = process.hrtime()) => {
+
+let currmark = [0, 0];
+const mark = () => currmark = process.hrtime();
+const elapsed = ([os, ons] = currmark, [s, ns] = process.hrtime()) => {
     return (s - os) * 1e9 + (ns - ons);
 };
 
-const selapsed = (ot, t = process.hrtime()) => {
-    const nanos = elapsed(ot, t);
-
+const showTime = (nanos) => {
     if (nanos < 1e3) return `${Math.round(nanos)} ns`;
     if (nanos < 1e6) return `${Math.round(nanos) / 1e3} µs`;
     if (nanos < 1e9) return `${Math.round(nanos / 1e3) / 1e3} ms`;
     return `${Math.round(nanos / 1e6) / 1e3} s`;
 };
 
+const selapsed = (ot = currmark, t = process.hrtime()) => showTime(elapsed(ot, t));
+
 (async () => {
 
     const x = {a:1, b: 2};
+
+    mark();
     const func = python`
         def exec(a):
             return a + ${x}["a"] + ${x}["b"]
     `;
-
-    const ts1 = process.hrtime();
     assert.strictEqual(await func(1), 4);
-    const ts2 = process.hrtime();
+    console.log("Compile time latency:", selapsed());
 
-    const ts3 = process.hrtime();
-
+    mark();
     await DataStream
         .from(function*() {
             let i = 0; while (i++ < 999) yield i;
         })
+        .setOptions({maxParallel: 128})
         .map(func)
         .toArray();
 
-    const ts4 = process.hrtime();
+    console.log("Throughput:", Math.round(1e12 / elapsed()), "exec/s");
 
-    const ts5 = process.hrtime();
+    mark();
     assert.strictEqual(await func(2), 5);
-    const ts6 = process.hrtime();
-
-    console.log("Cold latency:", selapsed(ts1, ts2));
-    console.log("Throughput:", Math.round(1e12 / elapsed(ts3, ts4)), "exec/s");
-    console.log("Hot latency:", selapsed(ts5, ts6));
+    console.log("Hot latency:", selapsed());
 
     await func.end();
 

@@ -33,10 +33,10 @@ Intel i7-8750H, 32GB RAM:
 
 ```
 /scramjet/scramjet-python-module [master|✔]
-$ node test/benchmark/call.js
-Cold latency: 145.955 ms
-Throughput: 1691 exec/s
-Hot latency: 550.957 µs
+23:58 $ node test/benchmark/call.js
+Compile time latency: 67.754 ms
+Throughput: 5494 exec/s
+Hot latency: 167.42 µs
 ✔
 ```
 
