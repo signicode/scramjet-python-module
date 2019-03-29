@@ -12,6 +12,8 @@ stream.use(
 )
 ```
 
+## Tests
+
 The current outcome is:
 
 ```
@@ -24,5 +26,27 @@ test.js
 
 OK: 1 assertions (117ms)
 ```
+
+## Benchmark
+
+Intel i7-8750H, 32GB RAM:
+
+```
+/scramjet/scramjet-python-module [master|✔]
+$ node test/benchmark/call.js
+Cold latency: 145.955 ms
+Throughput: 1691 exec/s
+Hot latency: 550.957 µs
+✔
+```
+
+## TODO's
+
+* Currently we can `map` but we want to `use` `python`
+  * Create a TCP server on python side
+  * Recreate methods for scramjet
+  * Implement protocol from stream-child.js
+* Create a repo and describe the protocol
+* Describe the PromiseTransformStream class
 
 [1]: https://www.scramjet.org/
