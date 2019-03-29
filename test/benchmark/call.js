@@ -23,8 +23,7 @@ const selapsed = (ot = currmark, t = process.hrtime()) => showTime(elapsed(ot, t
 
     mark();
     const func = python`
-        def exec(a):
-            return a + ${x}["a"] + ${x}["b"]
+        exec = lambda a: a + ${x}["a"] + ${x}["b"]
     `;
     assert.strictEqual(await func(1), 4);
     console.log("Compile time latency:", selapsed());

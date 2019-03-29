@@ -12,6 +12,14 @@ stream.use(
 )
 ```
 
+Currently we can:
+
+```javascript
+stream.map(
+    python`exec = lambda a: a + 1`
+);
+```
+
 ## Tests
 
 The current outcome is:
